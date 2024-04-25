@@ -1,0 +1,9 @@
+<h1>Watering Calendar</h1>
+<a href="/waterings/form">Water Today</a>
+<ul>
+  {{#each waterings}}
+  <li>
+    {{this.plantname}} - {{this.wateringDate}}
+  </li>
+  {{/each}}
+</ul>

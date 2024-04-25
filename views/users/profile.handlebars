@@ -1,0 +1,25 @@
+<h1>{{currentUser.name}}</h1>
+
+My Plants:
+<ul>
+  {{#each plantsUser}}
+    <li>{{this.name}}-{{this.status}} 
+        <form action="/users_plants/upsert" role="form" method="post">
+          <input type="hidden" name="_csrf" value="{{@root._csrfToken}}">
+          <input type="hidden" name="plantId" value="{{this.plantId}}">
+          <input type="hidden" name="userId" value="{{@root.currentUser.id}}">
+          <input type="hidden" name="id" value="{{this.id}}">
+          <label for="status">Status</label>
+          <select name="status" id="status">
+            {{#each @root.statuses}}
+              <option value="{{this}}" {{#if (eq ../status this)}}selected{{/if}}>{{this}}</option>
+            {{/each}}
+          </select>
+          <button type="submit">Submit</button>
+        </form>
+    </li>
+    <div>
+ 
+</div>
+  {{/each}}
+</ul>

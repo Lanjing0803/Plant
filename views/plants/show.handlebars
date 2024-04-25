@@ -1,0 +1,40 @@
+
+<a href="/plants">Back to all plants</a>
+<h1>{{plant.name}}</h1>
+
+<div>
+  {{#if plant.plantImgUrl}}
+    <img src="{{plant.plantImgUrl}}" alt="{{plant.name}} Image" style="width: 100px;">
+  {{/if}}
+    <p>Description: {{plant.description}}</p>
+
+</div>
+
+{{#if currentUser}}
+  <a href="/plants/edit?id={{plant.id}}">Edit</a>
+
+
+
+<div>
+  <form action="/users_plants/upsert" role="form" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+    <input type="hidden" name="plantId" value="{{plant.id}}">
+    <input type="hidden" name="userId" value="{{currentUser.id}}">
+    {{#if plantUser}}
+    <input type="hidden" name="id" value="{{plantUser.id}}">
+    {{/if}}
+    <label for="status">Status</label>
+    <select name="status" id="status">
+      {{#unless (and plantUser plantUser.status)}}
+        <option disabled selected value>-- select status --</option>
+      {{/unless}}
+      {{#each statuses}}
+        <option value="{{this}}" {{#if (and @root.plantUser (eq @root.plantUser.status this))}}selected{{/if}}>{{this}}</option>
+      {{/each}}
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+{{/if}}
+

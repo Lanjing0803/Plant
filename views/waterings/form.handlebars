@@ -1,0 +1,21 @@
+<h1>New Watering</h1>
+
+<form action="/waterings/upsert" role="form" method="post">
+  <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+  
+  <div>
+    <label for="plantId">Select Plant</label>
+    <select name="plantId" id="plantId">
+      {{#each plants}}
+        <option value="{{this.id}}">{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  
+  <div>
+    <label for="wateringDate">Watering Date</label>
+    <input type="datetime-local" id="watering_date" name="wateringDate">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

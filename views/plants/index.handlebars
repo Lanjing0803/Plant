@@ -1,0 +1,12 @@
+<h1>Plants</h1>
+<a href="/plants/form">Create a new Plant</a>
+<ul>
+  {{#each plants}}
+  <li>
+      <a href="/plants/show/{{this.id}}">{{this.id}} - {{this.name}}</a>
+
+
+    <img src="{{this.plantImgUrl}}" alt="{{this.name}} Image" style="max-width: 100px;">
+  </li>
+  {{/each}}
+</ul>
