@@ -1,47 +1,21 @@
+<h1>New Watering</h1>
 
-SET client_encoding = 'UTF8';
-
-CREATE TABLE "users" (
-  "id" serial,
-  "name" varchar not null,
-  "email" varchar unique not null,
-  "password" varchar not null,
-  "salt" varchar,
-  PRIMARY KEY ("id")
-);
-
-CREATE TABLE "plants" (
-  "id" serial,
-  "name" varchar not null,
-  "description" varchar,
-  "plant_img_url" varchar ,
-  PRIMARY KEY ("id")
-);
-
-CREATE TABLE "users_plants" (
-  "id" serial,
-  "user_id" Int,
-  "plant_id" Int,
-  "status" varchar,
-  "name" varchar,
-  PRIMARY KEY ("id"),
-  CONSTRAINT "FK_user_plant.user_id"
-    FOREIGN KEY ("user_id")
-      REFERENCES "users"("id"),
-  CONSTRAINT "FK_user_plant.plant_id"
-    FOREIGN KEY ("plant_id")
-      REFERENCES "plants"("id")
-);
-
-CREATE INDEX "CCK" ON  "users_plants" ("user_id", "plant_id");
-
-CREATE TABLE "waterings" (
-  "id" serial,
-  "user_plant_id" int not null,
-  "watering_date" timestamp,
-  PRIMARY KEY ("id"),
-  CONSTRAINT "FK_watering.user_plant_id"
-    FOREIGN KEY ("user_plant_id")
-      REFERENCES "users_plants"("id")
-);
-
+<form action="/waterings/upsert" role="form" method="post">
+  <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+  
+  <div>
+    <label for="userPlantId">Select Plant</label>
+    <select name="userPlantId" id="userPlantId">
+      {{#each plants}}
+        <option value="{{this.user_plant_id}}">{{this.plant_name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  
+  <div>
+    <label for="wateringDate">Watering Date</label>
+    <input type="datetime-local" id="watering_date" name="wateringDate">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

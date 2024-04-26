@@ -4,10 +4,10 @@
   <input type="hidden" name="_csrf" value="{{_csrfToken}}">
   
   <div>
-    <label for="plantId">Select Plant</label>
-    <select name="plantId" id="plantId">
+    <label for="userPlantId">Select Plant</label>
+    <select name="userPlantId" id="userPlantId">
       {{#each plants}}
-        <option value="{{this.id}}">{{this.name}}</option>
+        <option value="{{this.user_plant_id}}">{{this.plant_name}}</option>
       {{/each}}
     </select>
   </div>

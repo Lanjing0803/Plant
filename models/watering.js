@@ -19,7 +19,7 @@ exports.getByUserId = async (userId) => {
 
 exports.getPlantsByUserId = async (userId) => {
   const query = `
-    SELECT p.id, p.name
+    SELECT up.id AS user_plant_id, p.id AS plant_id, p.name AS plant_name
     FROM plants p
     INNER JOIN users_plants up ON p.id = up.plant_id
     WHERE up.user_id = $1
@@ -27,6 +27,7 @@ exports.getPlantsByUserId = async (userId) => {
   const { rows } = await db.getPool().query(query, [userId]);
   return rows;
 };
+
 exports.add = async (watering) => {
   return await db.getPool()
     .query("INSERT INTO waterings(watering_date, user_plant_id) VALUES($1, $2) RETURNING *",

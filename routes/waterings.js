@@ -7,7 +7,6 @@ router.get('/', async (req, res, next) => {
   
   if (currentUser && currentUser.id) {
       const waterings = await Watering.getByUserId(currentUser.id);
-     
       res.render('waterings/index', { title: 'PlantCare || Calendar', waterings });
   } else { 
       console.log('currentUser is not available or does not have an ID');
@@ -22,7 +21,7 @@ router.get('/form', async (req, res, next) => {
   if (currentUser && currentUser.id) {
     Watering.getPlantsByUserId(currentUser.id)
       .then((plants) => {
-        res.render('waterings/form', { title: 'PlantCare || Calendar', plants });
+        res.render('waterings/form', { title: 'PlantCare || Calendar', plants});
       })
       .catch((error) => {
         console.error('Error fetching plants:', error);
@@ -42,15 +41,19 @@ router.get('/edit', async (req, res, next) => {
 });
 
 router.post('/upsert', async (req, res, next) => {
-    console.log('body: '+ JSON.stringify(req.body));
-    await Watering.upsert(req.body);
-    let createdOrUpdated = req.body.id ? 'updated' : 'created'; 
-    req.session.flash = {
-      type: 'info',
-      intro: 'Success!',
-      message: `The watering date has been ${createdOrUpdated}!`,
-    };
-    res.redirect(303, '/waterings');
+  console.log('body: '+ JSON.stringify(req.body));
+  await Watering.upsert({
+    wateringDate: req.body.wateringDate,
+    userPlantId: req.body.userPlantId
+  });
+  let createdOrUpdated = req.body.id ? 'updated' : 'created'; 
+  req.session.flash = {
+    type: 'info',
+    intro: 'Success!',
+    message: `The watering date has been ${createdOrUpdated}!`,
+  };
+  res.redirect(303, '/waterings');
 });
+
 
 module.exports = router;
